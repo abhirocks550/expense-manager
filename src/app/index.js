@@ -6,6 +6,9 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './container/App';
 import HomePage from './container/HomePage';
 import About from './components/About/About';
+import * as HomeActions from './actions/HomeActions';
+
+store.dispatch(HomeActions.GetDemoUsers());
 
 render(
     <Provider store={store}>
