@@ -2,6 +2,7 @@ var path = require("path");
 
 var DIST_DIR = path.resolve(__dirname, "dist");
 var SRC_DIR = path.resolve(__dirname, "src");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var config = {
     entry: SRC_DIR + "/app/index.js",
@@ -22,7 +23,10 @@ var config = {
             }, {
                 test: /\.css$/,
                 loaders: ['style', 'css']
-            }
+            }, { 
+                 test: /\.scss$/, exclude: /node_modules/,
+                 loaders: ['style', 'css', 'sass'] 
+            },
         ]
     }
 };

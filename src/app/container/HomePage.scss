@@ -1,0 +1,14 @@
+@import 'loaders.css/src/animations/ball-spin-fade-loader.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+  color: #000;
+}
+
+#loader {
+  z-index: 9000;
+  margin-left: 50%;
+}
