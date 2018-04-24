@@ -16,11 +16,15 @@ const NavBar = (props) => {
         <Navbar.Collapse>
         <Nav>
             <NavItem componentClass={Link} href="/" to="/">
-                Home
+             <i className="fa fa-home fa-sm"></i>&nbsp;Home
             </NavItem>
             <NavItem componentClass={Link} href="/about" to="/about">
-                About
+             <i className="fa fa-address-book fa-sm"></i>&nbsp;About
             </NavItem>
+        </Nav>
+        <Nav pullRight>
+            <NavItem href='#'><i className="fa fa-user fa-sm"></i>&nbsp;Login</NavItem>
+            <NavItem href='#'><i className="fa fa-sign-out fa-sm"></i>&nbsp;Logout</NavItem>
         </Nav>
         </Navbar.Collapse>
     </Navbar>;
