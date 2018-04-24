@@ -36,7 +36,7 @@ class HomePage extends React.Component {
                   {!reducer.isUserspending &&
                     NotificationManager.success('Loading', 'Successfully loaded information')}
               </ul>
-            <NotificationContainer/>    
+            <NotificationContainer/>
           </div>
     );
   }

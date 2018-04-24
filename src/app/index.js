@@ -7,6 +7,7 @@ import App from './container/App';
 import HomePage from './container/HomePage';
 import About from './components/About/About';
 import * as HomeActions from './actions/HomeActions';
+import Login from './container/Login/Login';
 
 store.dispatch(HomeActions.GetDemoUsers());
 
@@ -16,6 +17,7 @@ render(
             <Route path="/" component={App} >
                 <IndexRoute component={HomePage} />
                 <Route path="about" component={About} />
+                <Route path="login" component={Login} />
             </Route>
         </Router>
     </Provider>,
