@@ -26,7 +26,10 @@ var config = {
             }, { 
                  test: /\.scss$/, exclude: /node_modules/,
                  loaders: ['style', 'css', 'sass'] 
-            },
+            }, {
+                test: /\.(ttf|eot|svg|woff(2)?)(\S+)?$/,
+                loader: 'file-loader'
+            }
         ]
     }
 };
