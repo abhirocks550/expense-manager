@@ -14,7 +14,6 @@ class Login extends React.Component {
       show: true,
       email: { value: '', isValid: true, message: '' },
       password: { value: '', isValid: true, message: '' },
-      confirmPassword: { value: '', isValid: true, message: '' },
     };
   }
 
@@ -43,12 +42,15 @@ class Login extends React.Component {
     this.resetValidationStates(); //reset states before the validation procedure is run.
     if (this.formIsValid()) { //run the validation, and if it's good move on.
       //form processing here....
+      alert('Valid form');
+      this.resetValidationStates();
+      this.resetForm();
+      console.log(this.state);
     }
   };
 
   formIsValid = () => {
     var state = this.state;
-    debugger;
     if (!validator.isEmail(state.email.value)) {
       state.email.isValid = false;
       state.email.message = 'Not a valid email address';
@@ -68,6 +70,13 @@ class Login extends React.Component {
     return true;
   };
 
+  resetForm = () => {
+    this.setState({
+      email: { value: '', isValid: true },
+      password: { value: '', isValid: true },
+    });
+  };
+
   resetValidationStates = () => {
     var state = this.state;
 
@@ -81,14 +90,13 @@ class Login extends React.Component {
   };
 
   render() {
-    var { email, password, confirmPassword } = this.state;
+    var { email, password } = this.state;
     /*
     Each of the group classes below will include the 'form-group' class, and will only
     include the 'has-error' class if the isValid value is false.
     */
     var emailGroupClass = classNames('form-group', { 'has-error': !email.isValid });
     var passwordGroupClass = classNames('form-group', { 'has-error': !password.isValid });
-    var confirmGroupClass = classNames('form-group', { 'has-error': !confirmPassword.isValid });
 
     let loginForm = (
       <div className="container col-md-12">
@@ -97,20 +105,14 @@ class Login extends React.Component {
 
           <div className={emailGroupClass}>
             <input type="text" name="email" className="form-control"
-              placeholder="Email address" value={email.value} onChange={this.onChange} autoFocus />
+              placeholder="Email address" value={this.state.email.value} onChange={this.onChange} autoFocus />
             <span className="help-block">{email.message}</span>
           </div>
 
           <div className={passwordGroupClass}>
             <input type="password" name="password" className="form-control"
-              placeholder="Password" value={password.value} onChange={this.onChange} />
+              placeholder="Password" value={this.state.password.value} onChange={this.onChange} />
             <span className="help-block">{password.message}</span>
-          </div>
-
-          <div className={confirmGroupClass}>
-            <input type="password" name="confirmPassword" className="form-control"
-              placeholder="Confirm Password" value={confirmPassword.value} onChange={this.onChange} />
-            <span className="help-block">{confirmPassword.message}</span>
           </div>
 
           <button className="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
