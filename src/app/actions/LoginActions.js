@@ -18,6 +18,13 @@ export function CloseModal() {
   };
 }
 
+export function OpenModal() {
+  return {
+    type: 'OPEN_MODAL',
+    modalStatus: true,
+  };
+}
+
 export function UpdateObject(key, object) {
   return {
     type: 'LOGIN_UPDATE_OBJECT',

@@ -14,6 +14,10 @@ class Login extends React.Component {
     this.login = this.login.bind(this);
   }
 
+  componentDidMount() {
+    this.props.OpenModal();
+  }
+
   login(event) {
     event.preventDefault();
     this.props.CloseModal();
@@ -137,6 +141,10 @@ const mapDispatchToProps = dispatch => ({
 
   CloseModal: () => {
     dispatch(LoginActions.CloseModal());
+  },
+
+  OpenModal: () => {
+    dispatch(LoginActions.OpenModal());
   },
 
   UpdateObject: (key, object) => {

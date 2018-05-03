@@ -23,6 +23,12 @@ export default function LoginReducer(state = {
       show: action.modalStatus,
     };
     return state;
+  case 'OPEN_MODAL':
+    state = {
+      ...state,
+      show: action.modalStatus,
+    };
+    return state;
   case 'LOGIN_UPDATE_OBJECT':
     state = {
       ...state,
