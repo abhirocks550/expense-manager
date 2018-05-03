@@ -2,6 +2,9 @@ import React from 'react';
 import BootStrapModal from '../../components/Modal/BootStrapModal';
 import classNames from 'classnames';
 import validator from 'validator';
+import { browserHistory } from 'react-router';
+import * as LoginActions from '../../actions/LoginActions';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
   constructor(props, context) {
@@ -9,61 +12,54 @@ class Login extends React.Component {
 
     this.handleClose = this.handleClose.bind(this);
     this.login = this.login.bind(this);
-
-    this.state = {
-      show: true,
-      email: { value: '', isValid: true, message: '' },
-      password: { value: '', isValid: true, message: '' },
-    };
   }
 
   login(event) {
     event.preventDefault();
-    this.setState({
-      show: false,
-    });
+    this.props.CloseModal();
   }
 
   handleClose() {
-    this.setState({
-      show: false,
-    });
+    this.props.CloseModal();
+    browserHistory.push('/about');
   }
 
-  onChange = (e) => {
-    var state = this.state;
-    state[e.target.name].value = e.target.value;
-
-    this.setState(state);
+  onChange = (keyName, e) => {
+    let object = {
+      value: e.target.value,
+      isValid: true,
+    };
+    this.props.UpdateObject(keyName, object);
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.resetValidationStates(); //reset states before the validation procedure is run.
-    if (this.formIsValid()) { //run the validation, and if it's good move on.
+    if (this.formIsValid()) {
+      //run the validation, and if it's good move on.
       //form processing here....
-      alert('Valid form');
-      this.resetValidationStates();
-      this.resetForm();
-      console.log(this.state);
+      this.props.ResetInput(); //reset states before the validation procedure is run.
+      browserHistory.push('/');
     }
   };
 
   formIsValid = () => {
-    var state = this.state;
-    if (!validator.isEmail(state.email.value)) {
-      state.email.isValid = false;
-      state.email.message = 'Not a valid email address';
+    if (!validator.isEmail(this.props.LoginReducer.email.value)) {
+      let object = {
+        isValid: false,
+        message: 'Not a valid email address',
+      };
 
-      this.setState(state);
+      this.props.UpdateObject('email', object);
       return false;
     }
 
-    if (validator.isEmpty(state.password.value)) {
-      state.password.isValid = false;
-      state.password.message = 'Please enter password';
+    if (validator.isEmpty(this.props.LoginReducer.password.value)) {
+      let object = {
+        isValid: false,
+        message: 'Please enter password',
+      };
 
-      this.setState(state);
+      this.props.UpdateObject('password', object);
       return false;
     }
 
@@ -77,20 +73,8 @@ class Login extends React.Component {
     });
   };
 
-  resetValidationStates = () => {
-    var state = this.state;
-
-    Object.keys(state).map(key => {
-      if (state[key].hasOwnProperty('isValid')) {
-        state[key].isValid = true;
-        state[key].message = '';
-      }
-    });
-    this.setState(state);
-  };
-
   render() {
-    var { email, password } = this.state;
+    var { email, password } = this.props.LoginReducer;
     /*
     Each of the group classes below will include the 'form-group' class, and will only
     include the 'has-error' class if the isValid value is false.
@@ -104,18 +88,22 @@ class Login extends React.Component {
           <h2 className="form-signin-heading">Create Account</h2>
 
           <div className={emailGroupClass}>
-            <input type="text" name="email" className="form-control"
-              placeholder="Email address" value={this.state.email.value} onChange={this.onChange} autoFocus />
+            <input type="text" name="emailInput" className="form-control"
+              placeholder="Email address"
+              value={this.props.LoginReducer.emailInput}
+              onChange={(e) => this.onChange('email', e)} autoFocus />
             <span className="help-block">{email.message}</span>
           </div>
 
           <div className={passwordGroupClass}>
-            <input type="password" name="password" className="form-control"
-              placeholder="Password" value={this.state.password.value} onChange={this.onChange} />
+            <input type="password" name="passwordInput" className="form-control"
+              placeholder="Password"
+              value={this.props.LoginReducer.passwordInput}
+              onChange={(e) => this.onChange('password', e)} />
             <span className="help-block">{password.message}</span>
           </div>
 
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+          <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         <br />
         </form>
       </div>
@@ -126,10 +114,35 @@ class Login extends React.Component {
         <BootStrapModal
           handleClose={this.handleClose} heading="Login Form"
           body={loginForm}
-          show={this.state.show} />
+          show={this.props.LoginReducer.show} />
       </div>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state, ownState) => {
+  return {
+    LoginReducer: state.LoginReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  UpdateInput: (event) => {
+    dispatch(LoginActions.UpdateInput(event));
+  },
+
+  ResetInput: () => {
+    dispatch(LoginActions.ResetInput());
+  },
+
+  CloseModal: () => {
+    dispatch(LoginActions.CloseModal());
+  },
+
+  UpdateObject: (key, object) => {
+    dispatch(LoginActions.UpdateObject(key, object));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+

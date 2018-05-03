@@ -8,13 +8,14 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 class HomePage extends React.Component {
   componentDidMount() {
-    if (this.props.HomeReducer.isUserspending) {
-      NotificationManager.info('Loading', 'List of users');
-    }
+    // if (this.props.HomeReducer.isUserspending) {
+    //   NotificationManager.info('Loading', 'List of users');
+    // }
   }
 
   render() {
     let reducer =  this.props.HomeReducer;
+    alert(reducer.isUserspending);
     return (
           <div className='container'>
             <h2>This is Home page. List of Users is below</h2>
@@ -33,9 +34,9 @@ class HomePage extends React.Component {
                       return <li key={index}> {user} </li>;
                     })
                   }
-                  {!reducer.isUserspending &&
-                    NotificationManager.success('Loading', 'Successfully loaded information')}
               </ul>
+              {!reducer.isUserspending &&
+                    NotificationManager.success('Success', 'Successfully loaded information')}
             <NotificationContainer/>
           </div>
     );
