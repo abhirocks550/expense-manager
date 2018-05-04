@@ -18,6 +18,7 @@ render(
                 <IndexRoute component={HomePage} />
                 <Route path="about" component={About} />
                 <Route path="login" component={Login} />
+                <Route path="dashbaord" component={About} />
             </Route>
         </Router>
     </Provider>,

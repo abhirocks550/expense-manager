@@ -39,15 +39,24 @@ class Login extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     if (this.formIsValid()) {
+      let user = {
+        email: this.props.LoginReducer.email.value,
+        password: this.props.LoginReducer.password.value,
+      };
+
       //run the validation, and if it's good move on.
       //form processing here....
-      this.props.ResetInput(); //reset states before the validation procedure is run.
-      browserHistory.push('/');
+      this.props.CheckUser(user);
+      if (this.props.LoginReducer.isValiduser) {
+        this.props.ResetInput(); //reset states before the validation procedure is run.
+        browserHistory.push('/dashbaord');
+      }
     }
   };
 
   formIsValid = () => {
-    if (!validator.isEmail(this.props.LoginReducer.email.value)) {
+    if (this.props.LoginReducer.email.value == undefined ||
+      !validator.isEmail(this.props.LoginReducer.email.value)) {
       let object = {
         isValid: false,
         message: 'Not a valid email address',
@@ -57,7 +66,8 @@ class Login extends React.Component {
       return false;
     }
 
-    if (validator.isEmpty(this.props.LoginReducer.password.value)) {
+    if (this.props.LoginReducer.password.value == undefined ||
+      validator.isEmpty(this.props.LoginReducer.password.value)) {
       let object = {
         isValid: false,
         message: 'Please enter password',
@@ -68,13 +78,6 @@ class Login extends React.Component {
     }
 
     return true;
-  };
-
-  resetForm = () => {
-    this.setState({
-      email: { value: '', isValid: true },
-      password: { value: '', isValid: true },
-    });
   };
 
   render() {
@@ -89,7 +92,7 @@ class Login extends React.Component {
     let loginForm = (
       <div className="container col-md-12">
         <form className="form-signin" onSubmit={this.onSubmit}>
-          <h2 className="form-signin-heading">Create Account</h2>
+          <h2 className="form-signin-heading">Login</h2>
 
           <div className={emailGroupClass}>
             <input type="text" name="emailInput" className="form-control"
@@ -137,6 +140,10 @@ const mapDispatchToProps = dispatch => ({
 
   ResetInput: () => {
     dispatch(LoginActions.ResetInput());
+  },
+
+  CheckUser: (user) => {
+    dispatch(LoginActions.CheckUser(user));
   },
 
   CloseModal: () => {

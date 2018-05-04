@@ -32,3 +32,22 @@ export function UpdateObject(key, object) {
     key: key,
   };
 }
+
+export function CheckUser(user) {
+  return (dispatch, getState) => {
+      return new Promise((resolve, reject) => {
+        debugger;
+          if (user.email === 'abhi@gmail.com' && user.password === '123') {
+            dispatch(ValidUser());
+            resolve();
+          }
+        });
+    };
+}
+
+export function ValidUser() {
+  return {
+    type: 'VALID_USER',
+    isValiduser: true,
+  };
+}

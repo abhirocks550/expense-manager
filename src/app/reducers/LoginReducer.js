@@ -1,5 +1,6 @@
 export default function LoginReducer(state = {
   show: true,
+  isValiduser: false,
   email: { value: '', isValid: true, message: '' },
   password: { value: '', isValid: true, message: '' },
 }, action) {
@@ -27,6 +28,12 @@ export default function LoginReducer(state = {
     state = {
       ...state,
       show: action.modalStatus,
+    };
+    return state;
+  case 'VALID_USER':
+    state = {
+      ...state,
+      isValiduser: action.isValiduser,
     };
     return state;
   case 'LOGIN_UPDATE_OBJECT':
