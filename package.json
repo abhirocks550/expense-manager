@@ -1,7 +1,7 @@
 {
-  "name": "course-tracker",
+  "name": "expense-manager",
   "version": "1.0.0",
-  "description": "React application to track course status.",
+  "description": "React application for managing expenses",
   "main": "index.js",
   "engines": {
     "node": "8.9.1"
@@ -14,7 +14,7 @@
   "keywords": [
     "reactjs"
   ],
-  "author": "HCL",
+  "author": "Abhijit",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",

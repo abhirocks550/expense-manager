@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import NavBar from '../components/NavigationBar/NavigationBar';
 
 class App extends React.Component {
   render() {
     return (
       <div className="container-fluid">
-        <NavBar />
+        <h2>App component</h2>
         {this.props.children}
       </div>
     );
